@@ -2,8 +2,8 @@ package clsvis.gui;
 
 import clsvis.model.ElementKind;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -15,16 +15,13 @@ import java.util.stream.Collectors;
 public interface ConstantValues {
 
     /** Map of elements background colors. */
-    Map<ElementKind, Color> backgroundColorMap = Arrays.stream( ElementKind.values() )
-            .collect( Collectors.toMap( ek -> ek, ek -> new Color( ek.colorNum ) ) );
+    Map<ElementKind, Color> backgroundColorMap = Collections.unmodifiableMap(
+            Arrays.stream( ElementKind.values() )
+            .collect( Collectors.toMap( ek -> ek, ek -> new Color( ek.colorNum ) ) ) );
 
-    String projectsHistoryFileName = "projectsHistory.session.xml";
-
-    String applicationTitle = "Class Visualizer";
+    String APPLICATION_TITLE = "Class Visualizer";
 
     String NEW_PROJECT_TITLE = "new project";
 
     String PROJECT_FILE_EXTENSION = "xml";
-
-    Cursor WAIT_CURSOR = new Cursor( Cursor.WAIT_CURSOR );
 }

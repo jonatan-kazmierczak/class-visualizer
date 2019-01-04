@@ -13,6 +13,7 @@ import clsvis.model.ProjectConfig;
 import clsvis.process.importer.BaseProjectImporter;
 import clsvis.process.importer.CompiledClassImporter;
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
 import java.awt.Point;
@@ -105,7 +106,7 @@ public class MainFrame extends JFrame {
     private final FileFilter jarFileFilter = new FileNameExtensionFilter( "Java Archive (.jar)", "jar" );
     private final FileFilter classFileFilter = new FileNameExtensionFilter( "Java Class (.class)", "class" );
     private final FileFilter projectFileFilter = new FileNameExtensionFilter(
-            ConstantValues.applicationTitle + " project (." + ConstantValues.PROJECT_FILE_EXTENSION + ")",
+            ConstantValues.APPLICATION_TITLE + " project (." + ConstantValues.PROJECT_FILE_EXTENSION + ")",
             ConstantValues.PROJECT_FILE_EXTENSION );
 
     public MainFrame() {
@@ -662,7 +663,7 @@ public class MainFrame extends JFrame {
      * Shows imported classes.
      */
     public void showClasses() {
-        getRootPane().setCursor( ConstantValues.WAIT_CURSOR );
+        getRootPane().setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
         CompiledClassImporter classImporter = projectImporter.getClassImporter();
         classesTable.setModel( new ClassesTableModel( classImporter.getImportedClasses() ) );
         TreeNode buildClassesTreeNode = StructureBuilder.buildClassesTreeNode2( classImporter.getImportedClassesRoot(), null );
@@ -806,7 +807,7 @@ public class MainFrame extends JFrame {
 
     @Override
     public void setTitle(String title) {
-        super.setTitle( title + " - " + ConstantValues.applicationTitle );
+        super.setTitle( title + " - " + ConstantValues.APPLICATION_TITLE );
     }
 
     public ProjectConfig getProjectConfig() {

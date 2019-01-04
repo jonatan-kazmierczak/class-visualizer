@@ -1,6 +1,7 @@
 package clsvis.gui.worker;
 
 import clsvis.Utils;
+import clsvis.gui.ConstantValues;
 import clsvis.gui.MainFrame;
 import clsvis.model.ProjectConfig;
 import java.io.File;
@@ -22,7 +23,9 @@ public class SaveProjectTask extends BaseTask<Void, Void> {
 
     public SaveProjectTask(MainFrame mainFrame, File path) {
         this( mainFrame );
-        projectConfig.path = path;
+        projectConfig.path = path.getName().endsWith( ConstantValues.PROJECT_FILE_EXTENSION )
+                ? path
+                : new File( path.getAbsolutePath() + '.' + ConstantValues.PROJECT_FILE_EXTENSION );
     }
 
     @Override
