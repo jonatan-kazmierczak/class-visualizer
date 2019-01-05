@@ -42,23 +42,21 @@ import javax.swing.UIManager;
  * Component representing graph.<br>
  * Main method causing repainting is {@link #setMainClass(clsvis.model.Class_)}.
  *
- * @author Jonatan Kazmierczak [Jonatan.Kazmierczak (at) gmail (dot) com]
+ * @author Jonatan Kazmierczak [Jonatan (at) Son-of-God.info]
  */
-public class GraphComponent extends JPanel implements Scrollable {
+public final class GraphComponent extends JPanel implements Scrollable {
 
     private enum PaintAction {
         GRAPH, SELECTED_ITEM
     }
 
     // Constants
-    //private static final int MIN_SIZE = 6;
-    //private static final int MAX_SIZE = 24;
     private static final Logger logger = Logger.getLogger( GraphComponent.class.getName() );
 
     private static final BasicStroke border = new BasicStroke( 2.0f );
     private static final BasicStroke solidLine = new BasicStroke( 1.0f );
     private static final BasicStroke dashedLine = new BasicStroke(
-            1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, new float[]{10.0f}, 0.0f );
+            1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, new float[]{ 10.0f }, 0.0f );
     private static final SideGraphLayoutBuilder layoutBuilder = new SideGraphLayoutBuilder();
 
     private static final Map<RelationType, Color> relationColors = new EnumMap<RelationType, Color>( RelationType.class );
@@ -125,23 +123,17 @@ public class GraphComponent extends JPanel implements Scrollable {
         setPreferredSize( graphSize );
     }
 
-    /*
-	private Font getVertexFont(Vertex vertex) {
-		return vertex.class_.isAbstract() ? abstractClassFont : classFont;
-	}
-     */
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         if (logger.isLoggable( Level.FINEST )) {
             logger.finest( this.getClass().getSimpleName() + ".paintComponent" );
-            //logger.finest("\tdevice size: " + g2.getDeviceConfiguration().getBounds().getSize());
         }
         long timeStart = System.currentTimeMillis();
 
         super.paintComponent( g2 );
         paintGraph( g2 );
-        // Strange handling of selection now - caused by painting bug on Windows 7
+        // Current handling of selection caused by painting bug on Windows 7
         if (paintAction == PaintAction.SELECTED_ITEM) {
             paintSelection( g2 );
         }
@@ -154,11 +146,9 @@ public class GraphComponent extends JPanel implements Scrollable {
     }
 
     private void paintGraph(Graphics2D g2) {
-        //g2.clearRect(0, 0, getWidth(), getHeight());
         g2.setColor( classForeground );
 
         // Draw edges: from end - throwable deps before other deps
-        //for (Edge edge : edges) {
         for (int i = edges.size() - 1; i >= 0; i--) {
             drawEdge2( g2, edges.get( i ) );
         }
@@ -167,7 +157,6 @@ public class GraphComponent extends JPanel implements Scrollable {
         g2.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP );
         g2.setStroke( border );
         for (Vertex vertex : vertices) {
-            //System.out.println(vertex.text);
             if (selectedVertex == null && vertex.main) {
                 prevSelectedVertex = selectedVertex = vertex;
             }
@@ -180,7 +169,6 @@ public class GraphComponent extends JPanel implements Scrollable {
             g2.setFont( vertex.class_.isAbstract() && vertex.isRepresentsClass() ? abstractClassFont : classFont );
             g2.drawString( vertex.getTitle(), vertex.textX, vertex.textY );
             drawVertexOutline( g2, vertex );
-            //g2.drawRoundRect(vertex.x, vertex.y, vertex.width, vertex.height, vertex.cellPadding, vertex.cellPadding);
         }
     }
 
@@ -200,7 +188,6 @@ public class GraphComponent extends JPanel implements Scrollable {
     }
 
     private void drawEdge2(Graphics2D g2, Edge edge) {
-        // Dependency-throws: red line, otherwise black line
         g2.setColor(
                 edge.relationType == RelationType.DependencyThrows || edge.relationType == RelationType.DependencyAnnotation
                         ? relationColors.get( edge.relationType ) : classForeground );
@@ -298,6 +285,7 @@ public class GraphComponent extends JPanel implements Scrollable {
      * Allows to copy graph to the clipboard as an image by Copy action.
      */
     static class GraphTransferHandler extends TransferHandler {
+
         @Override
         protected Transferable createTransferable(JComponent comp) {
             if (logger.isLoggable( Level.FINEST )) {
@@ -343,7 +331,8 @@ public class GraphComponent extends JPanel implements Scrollable {
      * Transfers graph image to the clipboard.
      */
     static class GraphTransferable implements Transferable {
-        private static final DataFlavor[] SUPPORTED_DATA_FLAVORS = {DataFlavor.imageFlavor};
+
+        private static final DataFlavor[] SUPPORTED_DATA_FLAVORS = { DataFlavor.imageFlavor };
 
         private final Image transferData;
 

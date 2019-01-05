@@ -56,9 +56,8 @@ public class CompiledClassImporter {
      * - review of adding references - should be done only from importClass
      */
 
- /* CONSTANTS */
+    /* CONSTANTS */
     private static final Logger logger = Logger.getLogger( CompiledClassImporter.class.getName() );
-    //private static final int maxClassCount = 0x4000;
 
     private static final Set<ElementModifier> generalModifiers = Collections.unmodifiableSet( EnumSet.of(
             ElementModifier.Public, ElementModifier.Protected, ElementModifier.Private,
@@ -133,7 +132,7 @@ public class CompiledClassImporter {
     private static Method createMemberMethod(String suffix, Class memberClass, Class... paramTypes) {
         try {
             return memberClass.getMethod( "is" + suffix, paramTypes );
-        } catch (NoSuchMethodException | SecurityException e) {
+        } catch (Exception e) {
             throw new UnsupportedOperationException( "Expected method is not supported", e );
         }
     }
@@ -175,7 +174,7 @@ public class CompiledClassImporter {
             notImportedClassNames.add( className );
         } catch (Error e) {
             if (e instanceof OutOfMemoryError) {
-                // Try to restore some mem
+                // Try to restore some memory
                 importedClasses.clear();
                 notImportedClassNames.clear();
                 processThrowable( Level.SEVERE, e, className );
@@ -245,21 +244,13 @@ public class CompiledClassImporter {
 
         try {
             return importClassInternal0( clazz );
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | Error e) {
             importedClasses.remove( className );
-            //notImportedClassNames.add(className);
-            throw e;
-        } catch (Error e) {
-            importedClasses.remove( className );
-            //notImportedClassNames.add(className);
             throw e;
         }
     }
 
     private Class_ importClassInternal0(Class clazz) {
-        //if (importedClasses.size() % 500 == 0) System.out.println("importedClassesCount: " + importedClasses.size());
-
-        //if (logger.isLoggable(Level.FINER)) logger.finer( "-> " + clazz );
         // Process class
         Collection<Field> declaredFields = new LinkedHashSet<>( Arrays.asList( clazz.getDeclaredFields() ) );
         Collection<Method> declaredMethods = Arrays.asList( clazz.getDeclaredMethods() );
@@ -311,12 +302,6 @@ public class CompiledClassImporter {
         for (int i = 0; i < superGenericInterfaces.length; i++) {
             importTypeParameters( superGenericInterfaces[ i ], superInterfaces[ i ], class_.typeParameters );
         }
-        /*
-		if (superInterfaces.length != superGenericInterfaces.length) {
-			logger.warning( String.format("Wrong interfaces defs for %s :%n   %s%n!= %s",
-					clazz, Arrays.toString(superInterfaces), Arrays.toString(superGenericInterfaces)) );
-		}
-         */
         // Import inner classes - compositions
         for (Class innerClass : clazz.getDeclaredClasses()) {
             try {
@@ -398,20 +383,16 @@ public class CompiledClassImporter {
             Collection<Method> methods,
             Class_ class_) {
 
-        Collection<Method> methodsToIgnore = new HashSet<>();
+        HashSet<Method> methodsToIgnore = new HashSet<>();
 
         // Looking for properties
         for (Method method : methods) {
-            //System.out.println(method);
             String name = method.getName();
-            //Collection<ElementModifier> elementModifiers = new HashSet<ElementModifier>();
-            //elementModifiers.addAll( decodeModifiers(method.getModifiers(), method) );
             Collection<ElementModifier> elementModifiers = decodeModifiers( method.getModifiers(), method );
             Collection<Annotation_> annotations = new LinkedHashSet<>();
             importAnnotations( method.getDeclaredAnnotations(), annotations );
 
             // Is it getter (public, non-static, without params) ?
-            //Matcher setterMatcher = setterPattern.matcher(name);
             Matcher accessorMatcher = getterPattern.matcher( name );
             boolean getterFound
                     = accessorMatcher.matches()
@@ -419,10 +400,7 @@ public class CompiledClassImporter {
                     && elementModifiers.contains( ElementModifier.Public )
                     && !elementModifiers.contains( ElementModifier.Static );
             if (getterFound) {
-                // Properties found
-                //EnumSet<ElementModifier> getterVisibility = Utils.visibilityModifiers();
-                //getterVisibility.retainAll(elementModifiers);
-
+                // Property found
                 // Look for eventual matching setter
                 Set<ElementModifier> setterVisibility = EnumSet.copyOf( ElementModifier.visibilityModifiers );
                 String propertyName = accessorMatcher.group( 2 );
@@ -588,7 +566,7 @@ public class CompiledClassImporter {
             return;
         }
 
-        Collection<Type> lHistory = new ArrayList<Type>( history );
+        ArrayList<Type> lHistory = new ArrayList<>( history );
         lHistory.add( declaredType );
 
         if (declaredType instanceof Class) {

@@ -22,7 +22,7 @@ import java.util.zip.ZipFile;
  * Base importing functionality:<br/>
  * Imports all classes included in provided path: jar file or directory.
  *
- * @author Jonatan Kazmierczak [Jonatan.Kazmierczak (at) gmail (dot) com]
+ * @author Jonatan Kazmierczak [Jonatan (at) Son-of-God.info]
  */
 public class BaseProjectImporter {
 
@@ -90,8 +90,6 @@ public class BaseProjectImporter {
         classImporter.setClassLoader( null );
         classImporter.setImportProgressListener( null );
         classNames.clear();
-        //System.gc();
-        // TODO: try to improve releasing of refs to loaded classes
     }
 
     /**
@@ -114,15 +112,15 @@ public class BaseProjectImporter {
                 newSubDirNames.add( dirEntryName );
                 findClassNamesInDirectory( classesDir, newSubDirNames );
             }
-        } else // Process file
+        } else
         if (isTopLevelClass( currPathName )) {
+            // Process file
             // load top level class
             StringBuilder classNameSB = new StringBuilder( 0x80 );
             for (String subDirName : subDirNames) {
                 classNameSB.append( subDirName ).append( '.' );
             }
             classNameSB.setLength( classNameSB.length() - 7 ); // Remove suffix ".class."
-            //System.out.println(classNameSB);
             classNames.add( classNameSB.toString() );
         }
     }
@@ -177,7 +175,6 @@ public class BaseProjectImporter {
      * Adds the given paths to the class paths.
      */
     public void addClassPaths(Collection<File> paths) {
-        //logger.log(Level.CONFIG, "{0} elements to add to class path", paths.length);
         for (File path : paths) {
             findJarsInDirectory( path );
         }
@@ -194,13 +191,14 @@ public class BaseProjectImporter {
         if (currPath.isDirectory()) {
             // Process directory entries
             File[] dirEntries = currPath.listFiles();
-            // Revers sort - to have greater lib versions before lower on class path
+            // Revers sort - to have higher lib versions before lower on class path
             Arrays.sort( dirEntries, Collections.reverseOrder() );
             for (File dirEntry : dirEntries) {
                 findJarsInDirectory( dirEntry );
             }
-        } else // Process files
+        } else
         if (currPathName.endsWith( jarFileName )) {
+            // Process files
             try {
                 logger.log( Level.FINEST, "Adding to class path: {0}", currPath );
                 checkPathExists( currPath );
