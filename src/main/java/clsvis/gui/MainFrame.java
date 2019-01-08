@@ -247,6 +247,7 @@ public class MainFrame extends JFrame {
 
         mainVerticalSplitPane.setTopComponent(topLeftSplitPane);
 
+        bottomPanel.setMinimumSize(new Dimension(0, 0));
         bottomPanel.setLayout(new BorderLayout());
 
         consoleTitle.setText(" Log");
