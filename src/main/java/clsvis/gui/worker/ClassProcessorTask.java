@@ -1,5 +1,6 @@
 package clsvis.gui.worker;
 
+import clsvis.ProjectConfigIO;
 import clsvis.Utils;
 import clsvis.gui.ConstantValues;
 import clsvis.gui.MainFrame;
@@ -7,10 +8,7 @@ import clsvis.model.ProjectConfig;
 import clsvis.process.importer.BaseProjectImporter;
 import clsvis.process.importer.CompiledClassImporter;
 import clsvis.process.importer.ImportProgressListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import javax.xml.bind.JAXB;
 
 /**
  * Class processor, responsible for the following tasks (executed sequentially):
@@ -75,13 +73,9 @@ public class ClassProcessorTask extends BaseTask<Void, Void> implements ImportPr
         logInfo( "Opening project: " + config.path );
         setErrorMessage( "Error during opening project: " );
 
-        try (BufferedReader projectConfigReader = new BufferedReader( new FileReader( config.path ) )) {
-            ProjectConfig newConfig = JAXB.unmarshal( projectConfigReader, ProjectConfig.class );
-            if (newConfig != null) {
-                config.setContent( config.path, newConfig );
-                mainProjectConfig.setContent( config.path, newConfig );
-            }
-        }
+        ProjectConfig newConfig = ProjectConfigIO.load( config.path );
+        config.setContent( config.path, newConfig );
+        mainProjectConfig.setContent( config.path, newConfig );
     }
 
     private void addToClasspath() {

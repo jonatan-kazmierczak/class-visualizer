@@ -1,11 +1,11 @@
 package clsvis.gui.worker;
 
+import clsvis.ProjectConfigIO;
 import clsvis.Utils;
 import clsvis.gui.ConstantValues;
 import clsvis.gui.MainFrame;
 import clsvis.model.ProjectConfig;
 import java.io.File;
-import javax.xml.bind.JAXB;
 
 /**
  * Saves project file.
@@ -30,7 +30,8 @@ public class SaveProjectTask extends BaseTask<Void, Void> {
 
     @Override
     protected Void doInBackground() {
-        JAXB.marshal( projectConfig, projectConfig.path );
+        logInfo( "Saving project: " + projectConfig.path );
+        ProjectConfigIO.save( projectConfig );
         return null;
     }
 

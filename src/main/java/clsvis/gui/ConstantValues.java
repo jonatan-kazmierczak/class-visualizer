@@ -23,5 +23,5 @@ public interface ConstantValues {
 
     String NEW_PROJECT_TITLE = "new project";
 
-    String PROJECT_FILE_EXTENSION = "xml";
+    String PROJECT_FILE_EXTENSION = "clsvis";
 }

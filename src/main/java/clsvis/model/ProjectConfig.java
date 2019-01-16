@@ -4,24 +4,19 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
+import java.util.Objects;
 
 /**
  * Holds project configuration.
  *
  * @author Jonatan Kazmierczak [Jonatan (at) Son-of-God.info]
  */
-@XmlType
-@XmlRootElement
-@XmlAccessorType( value = XmlAccessType.FIELD )
 public final class ProjectConfig {
 
+    public enum PersistentFields { classPaths, importPaths }
+
+
     /** Path where the config is stored on the file system. */
-    @XmlTransient
     public File path;
 
     public Collection<File> classPaths = new LinkedHashSet<>();
@@ -62,5 +57,43 @@ public final class ProjectConfig {
 
     public boolean isPathToBeUsedForProjectLoad() {
         return path != null && classPaths.isEmpty() && importPaths.isEmpty();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 17 * hash + Objects.hashCode( this.path );
+        hash = 17 * hash + Objects.hashCode( this.classPaths );
+        hash = 17 * hash + Objects.hashCode( this.importPaths );
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ProjectConfig other = (ProjectConfig) obj;
+        if (!Objects.equals( this.path, other.path )) {
+            return false;
+        }
+        if (!Objects.equals( this.classPaths, other.classPaths )) {
+            return false;
+        }
+        if (!Objects.equals( this.importPaths, other.importPaths )) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectConfig{" + "path=" + path + ", classPaths=" + classPaths + ", importPaths=" + importPaths + '}';
     }
 }
