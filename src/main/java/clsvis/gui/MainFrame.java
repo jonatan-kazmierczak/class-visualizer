@@ -13,6 +13,7 @@ import clsvis.model.ProjectConfig;
 import clsvis.process.importer.BaseProjectImporter;
 import clsvis.process.importer.CompiledClassImporter;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
@@ -58,6 +59,7 @@ import javax.swing.RowFilter.Entry;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import javax.swing.TransferHandler;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -109,7 +111,11 @@ public class MainFrame extends JFrame {
             ConstantValues.APPLICATION_TITLE + " project (." + ConstantValues.PROJECT_FILE_EXTENSION + ")",
             ConstantValues.PROJECT_FILE_EXTENSION );
 
+    private static final Color TREE_SELECTION_BG_COLOR = new Color( 0x87CEFA ); // LightSkyBlue
+
+
     public MainFrame() {
+        preInitComponents();
         initComponents();
         postInitComponents();
     }
@@ -579,6 +585,16 @@ public class MainFrame extends JFrame {
     // End of variables declaration//GEN-END:variables
 
     private GraphComponent graphComponent;
+
+
+    /**
+     * Additional implemented initialization, before generated {@link #initComponents()}.
+     */
+    private void preInitComponents() {
+        // Color re-definition for Nimbus LaF
+        UIManager.put( "nimbusSelectionBackground", TREE_SELECTION_BG_COLOR );
+        UIManager.put( "nimbusSelectedText", Color.BLACK );
+    }
 
     /**
      * Additional implemented initialization, after generated {@link #initComponents()}.
