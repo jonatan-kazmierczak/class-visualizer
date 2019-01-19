@@ -9,7 +9,10 @@ import clsvis.gui.worker.SaveProjectTask;
 import clsvis.gui.worker.ClassProcessorTask;
 import clsvis.logging.GUIHandler;
 import clsvis.model.Class_;
+import clsvis.model.ElementModifier;
 import clsvis.model.ProjectConfig;
+import clsvis.model.RelationDirection;
+import clsvis.model.RelationType;
 import clsvis.process.importer.BaseProjectImporter;
 import clsvis.process.importer.CompiledClassImporter;
 import java.awt.BorderLayout;
@@ -28,6 +31,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.lang.reflect.AccessibleObject;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -71,6 +75,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
@@ -243,6 +248,11 @@ public class MainFrame extends JFrame {
         membersEditorPane.setContentType("text/html"); // NOI18N
         membersEditorPane.setDoubleBuffered(true);
         membersEditorPane.setOpaque(false);
+        membersEditorPane.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                membersEditorPaneMouseClicked(evt);
+            }
+        });
         membersEditorScrollPane.setViewportView(membersEditorPane);
 
         rightTabbedPane.addTab("Preview", null, membersEditorScrollPane, "<html>Right click on class to locate it in Hierarchy.<br>Use mouse or press <code>Ctrl+A</code> to select elements.<br>Press <code>Ctrl+C</code> to copy selected text.");
@@ -528,6 +538,12 @@ public class MainFrame extends JFrame {
         }
     }//GEN-LAST:event_forwardMenuItemActionPerformed
 
+    private void membersEditorPaneMouseClicked(MouseEvent evt) {//GEN-FIRST:event_membersEditorPaneMouseClicked
+        if (evt.getButton() == MouseEvent.BUTTON3) {
+            selectClassOnClassesTree( viewedClass_ );
+        }
+    }//GEN-LAST:event_membersEditorPaneMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JMenuItem aboutMenuItem;
@@ -740,6 +756,19 @@ public class MainFrame extends JFrame {
         ((TableRowSorter) classesTable.getRowSorter()).setRowFilter( classesTableRowFilter );
     }
 
+    private void addTableSelectionListener(JTable table) {
+        table.getSelectionModel().addListSelectionListener( (ListSelectionEvent e) -> {
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+            int rowIdx = lsm.getLeadSelectionIndex();
+
+            if (rowIdx > -1 && !e.getValueIsAdjusting()) {
+                ClassesTableModel model = (ClassesTableModel) table.getModel();
+                Class_ class_ = model.getRow( table.convertRowIndexToModel( rowIdx ) );
+                viewClass( class_ );
+            }
+        } );
+    }
+
     /**
      * Replaces root of the tree with the given rootNode.
      */
@@ -761,17 +790,39 @@ public class MainFrame extends JFrame {
         } );
     }
 
-    private void addTableSelectionListener(JTable table) {
-        table.getSelectionModel().addListSelectionListener( (ListSelectionEvent e) -> {
-            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-            int rowIdx = lsm.getLeadSelectionIndex();
-
-            if (rowIdx > -1 && !e.getValueIsAdjusting()) {
-                ClassesTableModel model = (ClassesTableModel) table.getModel();
-                Class_ class_ = model.getRow( table.convertRowIndexToModel( rowIdx ) );
-                viewClass( class_ );
+    /**
+     * Selects the given class on the {@link #classesTree}.
+     */
+    void selectClassOnClassesTree(Object userObject) {
+        // build path from Class_es
+        Class_ class_ = (Class_) userObject;
+        // Only classes are handled
+        if (class_.modifiers.contains( ElementModifier.Interface )) {
+            return;
+        }
+        ArrayList<Class_> classPath = new ArrayList<>();
+        do {
+            classPath.add( class_ );
+            if (class_.relationsMap.get( RelationDirection.Outbound ).get( RelationType.SuperClass ).isEmpty()) {
+                break;
             }
-        } );
+            class_ = class_.relationsMap.get( RelationDirection.Outbound ).get( RelationType.SuperClass ).iterator().next();
+        } while (true);
+        Collections.reverse( classPath );
+        // build equivalent path from TreeNodes
+        ClassPresentationWrapper[] path = new ClassPresentationWrapper[classPath.size()];
+        TreeModel treeModel = classesTree.getModel();
+        ClassPresentationWrapper prevNode = (ClassPresentationWrapper) treeModel.getRoot();
+        path[ 0 ] = prevNode;
+        for (int i = 1; i < path.length; i++) {
+            ClassPresentationWrapper currNode = new ClassPresentationWrapper( classPath.get( i ), null );
+            currNode = (ClassPresentationWrapper) prevNode.getChildAt( prevNode.getIndex( currNode ) );
+            path[ i ] = currNode;
+            prevNode = currNode;
+        }
+        TreePath treePath = new TreePath( path );
+        classesTree.setSelectionPath( treePath );
+        classesTree.scrollPathToVisible( treePath );
     }
 
     private void executeWorker(SwingWorker<?, ?> worker) {
