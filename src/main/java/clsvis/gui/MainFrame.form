@@ -156,7 +156,7 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Alt+LEFT"/>
                 </Property>
-                <Property name="mnemonic" type="int" value="98"/>
+                <Property name="mnemonic" type="int" value="112"/>
                 <Property name="text" type="java.lang.String" value="Previous Class"/>
               </Properties>
               <Events>
@@ -168,11 +168,24 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Alt+RIGHT"/>
                 </Property>
-                <Property name="mnemonic" type="int" value="102"/>
+                <Property name="mnemonic" type="int" value="110"/>
                 <Property name="text" type="java.lang.String" value="Next Class"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="forwardMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="locateClassInHierarchyMenuItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+L"/>
+                </Property>
+                <Property name="mnemonic" type="int" value="108"/>
+                <Property name="text" type="java.lang.String" value="Locate Class In Hierarchy"/>
+                <Property name="toolTipText" type="java.lang.String" value="Locate in Hierarchy the class from current Preview"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="locateClassInHierarchyMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -459,9 +472,6 @@
                                 <Property name="doubleBuffered" type="boolean" value="true"/>
                                 <Property name="opaque" type="boolean" value="false"/>
                               </Properties>
-                              <Events>
-                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="membersEditorPaneMouseClicked"/>
-                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>

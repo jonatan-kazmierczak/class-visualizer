@@ -118,6 +118,8 @@ public class MainFrame extends JFrame {
 
     private static final Color TREE_SELECTION_BG_COLOR = new Color( 0x87CEFA ); // LightSkyBlue
 
+    private static final int TAB_IDX_CLASS_HIERARCHY = 2;
+
 
     public MainFrame() {
         preInitComponents();
@@ -183,6 +185,7 @@ public class MainFrame extends JFrame {
         navigationMenu = new JMenu();
         backMenuItem = new JMenuItem();
         forwardMenuItem = new JMenuItem();
+        locateClassInHierarchyMenuItem = new JMenuItem();
         helpMenu = new JMenu();
         aboutMenuItem = new JMenuItem();
 
@@ -248,11 +251,6 @@ public class MainFrame extends JFrame {
         membersEditorPane.setContentType("text/html"); // NOI18N
         membersEditorPane.setDoubleBuffered(true);
         membersEditorPane.setOpaque(false);
-        membersEditorPane.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                membersEditorPaneMouseClicked(evt);
-            }
-        });
         membersEditorScrollPane.setViewportView(membersEditorPane);
 
         rightTabbedPane.addTab("Preview", null, membersEditorScrollPane, "<html>Right click on class to locate it in Hierarchy.<br>Use mouse or press <code>Ctrl+A</code> to select elements.<br>Press <code>Ctrl+C</code> to copy selected text.");
@@ -424,7 +422,7 @@ public class MainFrame extends JFrame {
         navigationMenu.setText("Navigation");
 
         backMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.ALT_MASK));
-        backMenuItem.setMnemonic('b');
+        backMenuItem.setMnemonic('p');
         backMenuItem.setText("Previous Class");
         backMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -434,7 +432,7 @@ public class MainFrame extends JFrame {
         navigationMenu.add(backMenuItem);
 
         forwardMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.ALT_MASK));
-        forwardMenuItem.setMnemonic('f');
+        forwardMenuItem.setMnemonic('n');
         forwardMenuItem.setText("Next Class");
         forwardMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -442,6 +440,17 @@ public class MainFrame extends JFrame {
             }
         });
         navigationMenu.add(forwardMenuItem);
+
+        locateClassInHierarchyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_MASK));
+        locateClassInHierarchyMenuItem.setMnemonic('l');
+        locateClassInHierarchyMenuItem.setText("Locate Class In Hierarchy");
+        locateClassInHierarchyMenuItem.setToolTipText("Locate in Hierarchy the class from current Preview");
+        locateClassInHierarchyMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                locateClassInHierarchyMenuItemActionPerformed(evt);
+            }
+        });
+        navigationMenu.add(locateClassInHierarchyMenuItem);
 
         menuBar.add(navigationMenu);
 
@@ -538,11 +547,10 @@ public class MainFrame extends JFrame {
         }
     }//GEN-LAST:event_forwardMenuItemActionPerformed
 
-    private void membersEditorPaneMouseClicked(MouseEvent evt) {//GEN-FIRST:event_membersEditorPaneMouseClicked
-        if (evt.getButton() == MouseEvent.BUTTON3) {
-            selectClassOnClassesTree( viewedClass_ );
-        }
-    }//GEN-LAST:event_membersEditorPaneMouseClicked
+    private void locateClassInHierarchyMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_locateClassInHierarchyMenuItemActionPerformed
+        navigationTabbedPane.setSelectedIndex( TAB_IDX_CLASS_HIERARCHY );
+        selectClassOnClassesTree( viewedClass_ );
+    }//GEN-LAST:event_locateClassInHierarchyMenuItemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -577,6 +585,7 @@ public class MainFrame extends JFrame {
     private JMenuItem importDirMenuItem;
     private JMenuItem importJarMenuItem;
     private JMenu importMenu;
+    private JMenuItem locateClassInHierarchyMenuItem;
     private JPanel mainPanel;
     private JSplitPane mainVerticalSplitPane;
     private JEditorPane membersEditorPane;
