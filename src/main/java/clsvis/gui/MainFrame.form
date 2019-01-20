@@ -18,7 +18,7 @@
                   <KeyStroke key="Ctrl+N"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="110"/>
-                <Property name="text" type="java.lang.String" value="New project"/>
+                <Property name="text" type="java.lang.String" value="New Project"/>
                 <Property name="toolTipText" type="java.lang.String" value="Create new, empty project"/>
               </Properties>
               <Events>
@@ -157,7 +157,7 @@
                   <KeyStroke key="Alt+LEFT"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="98"/>
-                <Property name="text" type="java.lang.String" value="Back"/>
+                <Property name="text" type="java.lang.String" value="Previous Class"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backMenuItemActionPerformed"/>
@@ -169,7 +169,7 @@
                   <KeyStroke key="Alt+RIGHT"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="102"/>
-                <Property name="text" type="java.lang.String" value="Forward"/>
+                <Property name="text" type="java.lang.String" value="Next Class"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="forwardMenuItemActionPerformed"/>

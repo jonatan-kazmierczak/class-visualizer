@@ -314,7 +314,7 @@ public class MainFrame extends JFrame {
 
         newProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
         newProjectMenuItem.setMnemonic('n');
-        newProjectMenuItem.setText("New project");
+        newProjectMenuItem.setText("New Project");
         newProjectMenuItem.setToolTipText("Create new, empty project");
         newProjectMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -425,7 +425,7 @@ public class MainFrame extends JFrame {
 
         backMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.ALT_MASK));
         backMenuItem.setMnemonic('b');
-        backMenuItem.setText("Back");
+        backMenuItem.setText("Previous Class");
         backMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 backMenuItemActionPerformed(evt);
@@ -435,7 +435,7 @@ public class MainFrame extends JFrame {
 
         forwardMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.ALT_MASK));
         forwardMenuItem.setMnemonic('f');
-        forwardMenuItem.setText("Forward");
+        forwardMenuItem.setText("Next Class");
         forwardMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 forwardMenuItemActionPerformed(evt);
