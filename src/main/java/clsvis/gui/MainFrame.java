@@ -172,6 +172,7 @@ public class MainFrame extends JFrame {
         openProjectMenuItem = new JMenuItem();
         saveProjectMenuItem = new JMenuItem();
         saveProjectAsMenuItem = new JMenuItem();
+        reloadProjectMenuItem = new JMenuItem();
         fileMenuSeparator1 = new JPopupMenu.Separator();
         importMenu = new JMenu();
         importJarMenuItem = new JMenuItem();
@@ -352,6 +353,16 @@ public class MainFrame extends JFrame {
             }
         });
         fileMenu.add(saveProjectAsMenuItem);
+
+        reloadProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
+        reloadProjectMenuItem.setMnemonic('r');
+        reloadProjectMenuItem.setText("Reload Current Project");
+        reloadProjectMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                reloadProjectMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(reloadProjectMenuItem);
         fileMenu.add(fileMenuSeparator1);
 
         importMenu.setMnemonic('l');
@@ -552,6 +563,12 @@ public class MainFrame extends JFrame {
         selectClassOnClassesTree( viewedClass_ );
     }//GEN-LAST:event_locateClassInHierarchyMenuItemActionPerformed
 
+    private void reloadProjectMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_reloadProjectMenuItemActionPerformed
+        File projectPath = projectConfig.path;
+        resetProject( projectPath );
+        executeWorker( new ClassProcessorTask( this, new ProjectConfig( projectPath ) ) );
+    }//GEN-LAST:event_reloadProjectMenuItemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JMenuItem aboutMenuItem;
@@ -599,6 +616,7 @@ public class MainFrame extends JFrame {
     private JFileChooser openFileChooser;
     private JMenuItem openProjectMenuItem;
     private JProgressBar progressBar;
+    private JMenuItem reloadProjectMenuItem;
     private JTabbedPane rightTabbedPane;
     private JMenuItem saveProjectAsMenuItem;
     private JMenuItem saveProjectMenuItem;
