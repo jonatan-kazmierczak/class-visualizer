@@ -77,6 +77,24 @@
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="fileMenuSeparator1">
             </MenuItem>
+            <Menu class="javax.swing.JMenu" name="addMenu">
+              <Properties>
+                <Property name="mnemonic" type="int" value="97"/>
+                <Property name="text" type="java.lang.String" value="Add Required Libraries"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Add libraries required by classes you want to load.&lt;br&gt;You can point to some directory (i.e. Maven repository) and all jar files from all subdirectories will be added."/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="addJarsToClasspathMenuItem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="directories/JAR files..."/>
+                    <Property name="toolTipText" type="java.lang.String" value="Choose directories/JARs to add to class path"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addJarsToClasspathMenuItemActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
             <Menu class="javax.swing.JMenu" name="importMenu">
               <Properties>
                 <Property name="mnemonic" type="int" value="108"/>
@@ -100,24 +118,6 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="importDirMenuItemActionPerformed"/>
-                  </Events>
-                </MenuItem>
-              </SubComponents>
-            </Menu>
-            <Menu class="javax.swing.JMenu" name="addMenu">
-              <Properties>
-                <Property name="mnemonic" type="int" value="97"/>
-                <Property name="text" type="java.lang.String" value="Add To Class Path"/>
-                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Add elements to classpath.&lt;br&gt;You should add all elements referenced from imported classes (i.e. libraries)."/>
-              </Properties>
-              <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="addJarsToClasspathMenuItem">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="directories/JAR files..."/>
-                    <Property name="toolTipText" type="java.lang.String" value="Choose directories/JARs to add to class path"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addJarsToClasspathMenuItemActionPerformed"/>
                   </Events>
                 </MenuItem>
               </SubComponents>
@@ -169,7 +169,8 @@
                   <KeyStroke key="Alt+LEFT"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="112"/>
-                <Property name="text" type="java.lang.String" value="Previous Class"/>
+                <Property name="text" type="java.lang.String" value="Back"/>
+                <Property name="toolTipText" type="java.lang.String" value="Navigate to previous class from History"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backMenuItemActionPerformed"/>
@@ -181,7 +182,8 @@
                   <KeyStroke key="Alt+RIGHT"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="110"/>
-                <Property name="text" type="java.lang.String" value="Next Class"/>
+                <Property name="text" type="java.lang.String" value="Forward"/>
+                <Property name="toolTipText" type="java.lang.String" value="Navigate to next class from History"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="forwardMenuItemActionPerformed"/>
@@ -193,7 +195,7 @@
                   <KeyStroke key="Ctrl+L"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="108"/>
-                <Property name="text" type="java.lang.String" value="Locate Class In Hierarchy"/>
+                <Property name="text" type="java.lang.String" value="Locate Class in Hierarchy"/>
                 <Property name="toolTipText" type="java.lang.String" value="Locate in Hierarchy the class from current Preview"/>
               </Properties>
               <Events>

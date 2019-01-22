@@ -174,11 +174,11 @@ public class MainFrame extends JFrame {
         saveProjectAsMenuItem = new JMenuItem();
         reloadProjectMenuItem = new JMenuItem();
         fileMenuSeparator1 = new JPopupMenu.Separator();
+        addMenu = new JMenu();
+        addJarsToClasspathMenuItem = new JMenuItem();
         importMenu = new JMenu();
         importJarMenuItem = new JMenuItem();
         importDirMenuItem = new JMenuItem();
-        addMenu = new JMenu();
-        addJarsToClasspathMenuItem = new JMenuItem();
         fileMenuSeparator2 = new JPopupMenu.Separator();
         exitMenuItem = new JMenuItem();
         editMenu = new JMenu();
@@ -365,6 +365,21 @@ public class MainFrame extends JFrame {
         fileMenu.add(reloadProjectMenuItem);
         fileMenu.add(fileMenuSeparator1);
 
+        addMenu.setMnemonic('a');
+        addMenu.setText("Add Required Libraries");
+        addMenu.setToolTipText("<html>Add libraries required by classes you want to load.<br>You can point to some directory (i.e. Maven repository) and all jar files from all subdirectories will be added.");
+
+        addJarsToClasspathMenuItem.setText("directories/JAR files...");
+        addJarsToClasspathMenuItem.setToolTipText("Choose directories/JARs to add to class path");
+        addJarsToClasspathMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                addJarsToClasspathMenuItemActionPerformed(evt);
+            }
+        });
+        addMenu.add(addJarsToClasspathMenuItem);
+
+        fileMenu.add(addMenu);
+
         importMenu.setMnemonic('l');
         importMenu.setText("Load Classes");
         importMenu.setToolTipText("Load binary Java classes");
@@ -388,21 +403,6 @@ public class MainFrame extends JFrame {
         importMenu.add(importDirMenuItem);
 
         fileMenu.add(importMenu);
-
-        addMenu.setMnemonic('a');
-        addMenu.setText("Add To Class Path");
-        addMenu.setToolTipText("<html>Add elements to classpath.<br>You should add all elements referenced from imported classes (i.e. libraries).");
-
-        addJarsToClasspathMenuItem.setText("directories/JAR files...");
-        addJarsToClasspathMenuItem.setToolTipText("Choose directories/JARs to add to class path");
-        addJarsToClasspathMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                addJarsToClasspathMenuItemActionPerformed(evt);
-            }
-        });
-        addMenu.add(addJarsToClasspathMenuItem);
-
-        fileMenu.add(addMenu);
         fileMenu.add(fileMenuSeparator2);
 
         exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
@@ -434,7 +434,8 @@ public class MainFrame extends JFrame {
 
         backMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.ALT_MASK));
         backMenuItem.setMnemonic('p');
-        backMenuItem.setText("Previous Class");
+        backMenuItem.setText("Back");
+        backMenuItem.setToolTipText("Navigate to previous class from History");
         backMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 backMenuItemActionPerformed(evt);
@@ -444,7 +445,8 @@ public class MainFrame extends JFrame {
 
         forwardMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.ALT_MASK));
         forwardMenuItem.setMnemonic('n');
-        forwardMenuItem.setText("Next Class");
+        forwardMenuItem.setText("Forward");
+        forwardMenuItem.setToolTipText("Navigate to next class from History");
         forwardMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 forwardMenuItemActionPerformed(evt);
@@ -454,7 +456,7 @@ public class MainFrame extends JFrame {
 
         locateClassInHierarchyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_MASK));
         locateClassInHierarchyMenuItem.setMnemonic('l');
-        locateClassInHierarchyMenuItem.setText("Locate Class In Hierarchy");
+        locateClassInHierarchyMenuItem.setText("Locate Class in Hierarchy");
         locateClassInHierarchyMenuItem.setToolTipText("Locate in Hierarchy the class from current Preview");
         locateClassInHierarchyMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {

@@ -118,7 +118,7 @@ public class ClassProcessorTask extends BaseTask<Void, Void> implements ImportPr
                     ? String.format(
                             "Project imported successfully: %d classes.", delta )
                     : String.format( "Project imported with some problems: %d classes (%d classes not imported). "
-                            + "HINT: Add missing dependencies with 'File -> Add To Class Path'",
+                            + "HINT: Add missing dependencies with 'File -> Add Required Libraries'",
                             delta, failedClassesCount );
             logInfo( msg );
         } else {
