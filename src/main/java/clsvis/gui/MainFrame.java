@@ -44,6 +44,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
@@ -472,6 +473,11 @@ public class MainFrame extends JFrame {
 
         aboutMenuItem.setMnemonic('a');
         aboutMenuItem.setText("About");
+        aboutMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                aboutMenuItemActionPerformed(evt);
+            }
+        });
         helpMenu.add(aboutMenuItem);
 
         menuBar.add(helpMenu);
@@ -570,6 +576,15 @@ public class MainFrame extends JFrame {
         resetProject( projectPath );
         executeWorker( new ClassProcessorTask( this, new ProjectConfig( projectPath ) ) );
     }//GEN-LAST:event_reloadProjectMenuItemActionPerformed
+
+    private void aboutMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
+        JOptionPane.showMessageDialog(
+                this,
+                "<html><b>" + ConstantValues.APPLICATION_TITLE + "</b> " + ConstantValues.APPLICATION_VERSION,
+                "About",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }//GEN-LAST:event_aboutMenuItemActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
