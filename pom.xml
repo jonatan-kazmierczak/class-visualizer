@@ -33,18 +33,17 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>java</goal>
+                            <goal>exec</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>clsvis.Main</mainClass>
-                    <systemProperties>
-                        <systemProperty>
-                            <key>java.util.logging.config.file</key>
-                            <value>src/main/resources/logging.properties</value>
-                        </systemProperty>
-                    </systemProperties>
+                    <executable>java</executable>
+                    <arguments>
+                        <argument>-Djava.util.logging.config.file=src/main/resources/logging.properties</argument>
+                        <argument>-jar</argument>
+                        <argument>target/${project.build.finalName}.jar</argument>
+                    </arguments>
                 </configuration>
             </plugin>
         </plugins>
