@@ -33,7 +33,6 @@ import java.io.File;
 import java.lang.reflect.AccessibleObject;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import javax.swing.GroupLayout;
 import javax.swing.JComponent;
@@ -120,6 +119,9 @@ public class MainFrame extends JFrame {
     private static final Color TREE_SELECTION_BG_COLOR = new Color( 0x87CEFA ); // LightSkyBlue
 
     private static final int TAB_IDX_CLASS_HIERARCHY = 2;
+
+    private static final int STATUS_CLEANUP_DELAY_MS = 15_000;
+    private Timer statusCleanupTimer = new Timer( 0, null );
 
 
     public MainFrame() {
@@ -519,7 +521,9 @@ public class MainFrame extends JFrame {
     private void newProjectMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_newProjectMenuItemActionPerformed
         resetProject( null );
         setTitle( ConstantValues.NEW_PROJECT_TITLE );
-        logger.info( "New project created" );
+        String message = "New project created";
+        setStatusMessage( message );
+        logger.info( message );
     }//GEN-LAST:event_newProjectMenuItemActionPerformed
 
     private void importJarMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_importJarMenuItemActionPerformed
@@ -906,11 +910,14 @@ public class MainFrame extends JFrame {
         progressBar.setVisible( false );
         progressBar.setValue( 0 );
 
+        // Stop previous timer
+        statusCleanupTimer.stop();
         // Clean status message after specified time
-        new Timer(
-                (int) TimeUnit.SECONDS.toMillis( 15 ),
+        statusCleanupTimer = new Timer(
+                STATUS_CLEANUP_DELAY_MS,
                 e -> setStatusMessage( "" )
-        ).start();
+        );
+        statusCleanupTimer.start();
     }
 
     public void setStatusMessage(String message) {
