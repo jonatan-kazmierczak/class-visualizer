@@ -24,7 +24,6 @@ public class Annotation_ extends LangElement {
 
     @Override
     public String toString() {
-        return "<html>" + kind.symbolStr
-                + id.replaceAll( "\\@(?=[\\w\\.]+)", REPLACEMENT + "@" ).replaceFirst( REPLACEMENT, "" );
+        return "<html>" + kind.symbolStr + id;
     }
 }
