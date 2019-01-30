@@ -134,7 +134,6 @@ public class ClassProcessorTask extends BaseTask<Void, Void> implements ImportPr
             mainFrame.setTitle( projectTitle );
             mainFrame.showClasses();
         }
-        mainFrame.stopProgress();
     }
 
     @Override
@@ -143,7 +142,12 @@ public class ClassProcessorTask extends BaseTask<Void, Void> implements ImportPr
         logger.throwing( "", "", cause );
         config.path = null;
         projectImporter.cleanupAfterImport();
-        mainFrame.stopProgress();
+    }
+
+    @Override
+    protected void afterDoneGuiUpdate() {
+        // cleanup OldGen from temp objects created during import and UI refresh
+        System.gc();
     }
 
     /**

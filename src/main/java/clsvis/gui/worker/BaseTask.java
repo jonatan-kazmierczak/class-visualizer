@@ -45,6 +45,9 @@ public abstract class BaseTask<T, V> extends SwingWorker<T, V> {
             case STARTED:
                 beforeStartedGuiUpdate();
                 break;
+            case DONE:
+                afterDoneGuiUpdate();
+                break;
         }
     }
 
@@ -54,6 +57,9 @@ public abstract class BaseTask<T, V> extends SwingWorker<T, V> {
 
     protected void onProgressGuiUpdate(int progressPercent) {
         mainFrame.moveProgress( progressPercent );
+    }
+
+    protected void afterDoneGuiUpdate() {
     }
 
     @Override
