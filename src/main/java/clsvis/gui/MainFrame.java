@@ -123,6 +123,21 @@ public class MainFrame extends JFrame {
     private static final int STATUS_CLEANUP_DELAY_MS = 15_000;
     private Timer statusCleanupTimer = new Timer( 0, null );
 
+    private static final String ABOUT_TITLE = "About";
+    private static final String ABOUT_MESSAGE
+            = "<html><center>"
+            + "<font size='+2'><b>" + ConstantValues.APPLICATION_TITLE + "</b></font><br>"
+            + "<font size='+1'>" + ConstantValues.APPLICATION_VERSION + "</font>"
+            + "<br><br>"
+            + "<table>"
+            + "<tr><td>JVM name:     <td>" + System.getProperty( "java.vm.name" )
+            + "<tr><td>Java version: <td>" + System.getProperty( "java.runtime.version" )
+            + "<tr><td>Java home:    <td>" + System.getProperty( "java.home" )
+            + "</table>"
+            + "<br>"
+            + "Author: Jonatan Kaźmierczak"
+            ;
+
 
     public MainFrame() {
         preInitComponents();
@@ -584,9 +599,9 @@ public class MainFrame extends JFrame {
     private void aboutMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
         JOptionPane.showMessageDialog(
                 this,
-                "<html><b>" + ConstantValues.APPLICATION_TITLE + "</b> " + ConstantValues.APPLICATION_VERSION,
-                "About",
-                JOptionPane.INFORMATION_MESSAGE
+                ABOUT_MESSAGE,
+                ABOUT_TITLE,
+                JOptionPane.PLAIN_MESSAGE
         );
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
