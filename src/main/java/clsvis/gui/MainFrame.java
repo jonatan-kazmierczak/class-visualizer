@@ -135,7 +135,9 @@ public class MainFrame extends JFrame {
             + "<tr><td>Java home:    <td>" + System.getProperty( "java.home" )
             + "</table>"
             + "<br>"
-            + "Author: Jonatan Kaźmierczak"
+            + "Author: Jonatan Kaźmierczak<br>"
+            + "Jonatan (at) Son-of-God.info"
+            + "<br><br>"
             ;
 
 
