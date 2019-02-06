@@ -127,9 +127,10 @@ public class MainFrame extends JFrame {
     private static final String ABOUT_MESSAGE
             = "<html><center>"
             + "<font size='+2'><b>" + ConstantValues.APPLICATION_TITLE + "</b></font><br>"
-            + "<font size='+1'>" + ConstantValues.APPLICATION_VERSION + "</font>"
+            + "<font size='+1'>" + MainFrame.class.getPackage().getSpecificationVersion() + "</font>"
             + "<br><br>"
-            + "<table>"
+            + "<table cellpadding=0>"
+            + "<tr><td>Build:        <td>" + MainFrame.class.getPackage().getImplementationVersion()
             + "<tr><td>JVM name:     <td>" + System.getProperty( "java.vm.name" )
             + "<tr><td>Java version: <td>" + System.getProperty( "java.runtime.version" )
             + "<tr><td>Java home:    <td>" + System.getProperty( "java.home" )

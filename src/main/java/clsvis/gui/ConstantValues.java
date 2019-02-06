@@ -20,7 +20,6 @@ public interface ConstantValues {
             .collect( Collectors.toMap( ek -> ek, ek -> new Color( ek.colorNum ) ) ) );
 
     String APPLICATION_TITLE = "Class Visualizer";
-    String APPLICATION_VERSION = "11.0.0";
 
     String NEW_PROJECT_TITLE = "new project";
 
