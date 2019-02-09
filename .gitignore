@@ -1,1 +1,6 @@
 target
+build
+.gradle
+/nbproject/
+.idea
+*.iml
