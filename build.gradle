@@ -2,14 +2,10 @@ import java.time.LocalDateTime
 
 plugins {
     id 'java'
-    id 'maven'
 }
 
 repositories {
-    mavenLocal()
-    maven {
-        url = 'http://repo.maven.apache.org/maven2'
-    }
+    jcenter()
 }
 
 dependencies {
@@ -17,7 +13,7 @@ dependencies {
 }
 
 group = 'net.class-visualizer'
-version = '11.0.0'
+version = '12.0.0-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 tasks.withType(JavaCompile) {
