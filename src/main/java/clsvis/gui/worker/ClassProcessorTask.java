@@ -105,8 +105,9 @@ public class ClassProcessorTask extends BaseTask<Void, Void> implements ImportPr
         classImporter.setImportProgressListener( this );
 
         int startClassesCount = classImporter.getImportedClasses().size();
+        long startTimeMs = System.currentTimeMillis();
         projectImporter.importProject( config.importPaths );
-
+        double durationSeconds = (System.currentTimeMillis() - startTimeMs) / 1000.0;
         int endClassesCount = classImporter.getImportedClasses().size();
         int failedClassesCount = classImporter.getNotImportedClassesCount();
         int delta = endClassesCount - startClassesCount;
@@ -116,10 +117,10 @@ public class ClassProcessorTask extends BaseTask<Void, Void> implements ImportPr
             refreshUI = true;
             String msg = failedClassesCount == 0
                     ? String.format(
-                            "Project imported successfully: %d classes.", delta )
-                    : String.format( "Project imported with some problems: %d classes (%d classes not imported). "
+                            "Project imported successfully: %d classes within %.3fs.", delta, durationSeconds )
+                    : String.format( "Project imported with some problems: %d classes within %.3fs (%d classes not imported). "
                             + "HINT: Add missing dependencies with 'File -> Add Required Libraries'",
-                            delta, failedClassesCount );
+                            delta, durationSeconds, failedClassesCount );
             logInfo( msg );
         } else {
             logWarning( "No classes imported" );
