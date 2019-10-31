@@ -42,10 +42,6 @@ public class BaseProjectImporter {
         classNames.clear();
 
         try {
-            Runtime runtime = Runtime.getRuntime();
-
-            logger.log( Level.FINE, "Used memory before import: {0} MB",
-                    (runtime.totalMemory() - runtime.freeMemory()) >> 20 );
             findClassNames( paths );
             logger.log( Level.CONFIG, "Project size: {0} top-level classes", classNames.size() );
 
@@ -59,8 +55,6 @@ public class BaseProjectImporter {
 
                 initClassLoader();
                 runClassesImport();
-                logger.log( Level.FINE, "Used memory after import: {0} MB",
-                        (runtime.totalMemory() - runtime.freeMemory()) >> 20 );
             }
         } catch (IOException e) {
             logThrowable( e );
