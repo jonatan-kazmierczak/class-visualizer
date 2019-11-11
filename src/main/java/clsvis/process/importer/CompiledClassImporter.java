@@ -392,34 +392,38 @@ public class CompiledClassImporter {
             Collection<Annotation_> annotations = new LinkedHashSet<>();
             importAnnotations( method.getDeclaredAnnotations(), annotations );
 
-            // Is it getter (public, non-static, without params) ?
+            // Is it getter (non-static, without params) ?
             Matcher accessorMatcher = getterPattern.matcher( name );
             boolean getterFound
                     = accessorMatcher.matches()
                     && method.getParameterTypes().length == 0
-                    && elementModifiers.contains( ElementModifier.Public )
                     && !elementModifiers.contains( ElementModifier.Static );
             if (getterFound) {
                 // Property found
                 // Look for eventual matching setter
-                Set<ElementModifier> setterVisibility = EnumSet.copyOf( ElementModifier.visibilityModifiers );
+                EnumSet<ElementModifier> getterVisibility = EnumSet.copyOf( ElementModifier.visibilityModifiers );
+                getterVisibility.retainAll( elementModifiers );
                 String propertyName = accessorMatcher.group( 2 );
+                boolean setterFound;
                 try {
                     Method setter = clazz.getDeclaredMethod( "set" + propertyName, method.getReturnType() );
                     Collection<ElementModifier> setterModifiers = decodeModifiers( setter.getModifiers(), setter );
-                    boolean setterFound = !elementModifiers.contains( ElementModifier.Static );
+                    Set<ElementModifier> setterVisibility = EnumSet.copyOf( ElementModifier.visibilityModifiers );
+                    setterVisibility.retainAll( setterModifiers );
+                    setterFound
+                            = !setterModifiers.contains( ElementModifier.Static )
+                            && setterVisibility.equals( getterVisibility );
                     if (setterFound) {
-                        setterVisibility.retainAll( setterModifiers );
                         elementModifiers.addAll( setterModifiers );
                         importAnnotations( setter.getDeclaredAnnotations(), annotations );
                         methodsToIgnore.add( setter );
                     }
                 } catch (NoSuchMethodException e) {
-                    setterVisibility.clear();
+                    setterFound = false;
                 }
 
                 // Is it read-only property?
-                if (!setterVisibility.contains( ElementModifier.Public )) {
+                if (!setterFound) {
                     elementModifiers.add( ElementModifier.ReadOnly );
                 }
 
@@ -436,9 +440,9 @@ public class CompiledClassImporter {
                 } catch (NoSuchFieldException | SecurityException ignore) {
                 }
 
-                // Remove visibility modifiers and mark it as public
+                // Remove visibility modifiers and set the one from getter
                 elementModifiers.removeAll( ElementModifier.visibilityModifiers );
-                elementModifiers.add( ElementModifier.Public );
+                elementModifiers.addAll( getterVisibility );
 
                 // Create property
                 ParameterizableElement property = new ParameterizableElement(
