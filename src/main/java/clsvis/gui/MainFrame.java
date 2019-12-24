@@ -567,7 +567,7 @@ public class MainFrame extends JFrame {
     private void addJarsToClasspathMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_addJarsToClasspathMenuItemActionPerformed
         int choice = showFileChooser(
                 FileChooserType.OPEN, jarFileFilter, FileChooserSelectionMode.FILES_AND_DIRECTORIES, MULTI_SELECTION_ENABLED,
-                "Choose JAR file(s) to load classes from" );
+                "Choose directories/JARs to add to class path" );
         if (choice == JFileChooser.APPROVE_OPTION) {
             executeWorker( new ClassProcessorTask( this,
                     new ProjectConfig( projectConfig.path, openFileChooser.getSelectedFiles(), new File[0] ) ) );
