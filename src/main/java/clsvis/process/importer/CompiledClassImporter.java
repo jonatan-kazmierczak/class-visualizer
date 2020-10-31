@@ -68,6 +68,7 @@ public class CompiledClassImporter {
             ElementModifier.Static, ElementModifier.Final ) );
     private static final Set<ElementModifier> classModifiers = Collections.unmodifiableSet( EnumSet.of(
             ElementModifier.Interface, ElementModifier.Enum, ElementModifier.Annotation,
+            ElementModifier.Record, ElementModifier.Sealed,
             ElementModifier.LocalClass, ElementModifier.MemberClass,
             ElementModifier.Synthetic ) );
     public static final Set<ElementModifier> fieldModifiers = Collections.unmodifiableSet( EnumSet.of(

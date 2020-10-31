@@ -30,6 +30,8 @@ public enum ElementModifier {
     Interface,
     Enum, // TODO: should be presented as "enumeration"
     Annotation,
+    Record,
+    Sealed,
     Throwable,
     LocalClass,
     MemberClass,
@@ -37,7 +39,8 @@ public enum ElementModifier {
     Bridge,
     Default,
     Implicit,
-    VarArgs,;
+    VarArgs,
+    ;
 
     public static final Set<ElementModifier> visibilityModifiers = Collections.unmodifiableSet( EnumSet.of(
             ElementModifier.Private, ElementModifier.Protected, ElementModifier.Public ) );
