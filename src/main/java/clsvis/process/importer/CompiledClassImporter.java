@@ -126,15 +126,20 @@ public class CompiledClassImporter {
         Map<ElementModifier, Method> modifierProcessors = new EnumMap<>( ElementModifier.class );
         elementModifierProcessors.put( clazz.getName(), modifierProcessors );
         for (ElementModifier em : elementModifiers) {
-            modifierProcessors.put( em, createMemberMethod( em.name(), clazz ) );
+            try {
+                modifierProcessors.put( em, createMemberMethod(em.name(), clazz) );
+            } catch (UnsupportedOperationException e) {
+                logger.log( Level.FINE, () -> "Non-existing flag: " + Utils.rootCauseAsString( e ) );
+                logger.log( Level.FINER, "", e );
+            }
         }
     }
 
     private static Method createMemberMethod(String suffix, Class memberClass, Class... paramTypes) {
         try {
             return memberClass.getMethod( "is" + suffix, paramTypes );
-        } catch (Exception e) {
-            throw new UnsupportedOperationException( "Expected method is not supported", e );
+        } catch (NoSuchMethodException | SecurityException e) {
+            throw new UnsupportedOperationException( e );
         }
     }
 
