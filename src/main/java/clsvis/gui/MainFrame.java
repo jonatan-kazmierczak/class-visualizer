@@ -211,6 +211,8 @@ public class MainFrame extends JFrame {
         helpMenu = new JMenu();
         aboutMenuItem = new JMenuItem();
 
+        openFileChooser.setFileHidingEnabled(false);
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Class Visualizer");
 
@@ -272,7 +274,6 @@ public class MainFrame extends JFrame {
         membersEditorPane.setEditable(false);
         membersEditorPane.setContentType("text/html"); // NOI18N
         membersEditorPane.setDoubleBuffered(true);
-        membersEditorPane.setOpaque(false);
         membersEditorScrollPane.setViewportView(membersEditorPane);
 
         rightTabbedPane.addTab("Preview", null, membersEditorScrollPane, "<html>Right click on class to locate it in Hierarchy.<br>Use mouse or press <code>Ctrl+A</code> to select elements.<br>Press <code>Ctrl+C</code> to copy selected text.");
@@ -332,7 +333,7 @@ public class MainFrame extends JFrame {
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
 
-        newProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
+        newProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
         newProjectMenuItem.setMnemonic('n');
         newProjectMenuItem.setText("New Project");
         newProjectMenuItem.setToolTipText("Create new, empty project");
@@ -343,7 +344,7 @@ public class MainFrame extends JFrame {
         });
         fileMenu.add(newProjectMenuItem);
 
-        openProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+        openProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         openProjectMenuItem.setMnemonic('o');
         openProjectMenuItem.setText("Open Project");
         openProjectMenuItem.setToolTipText("Choose project file to be opened");
@@ -354,7 +355,7 @@ public class MainFrame extends JFrame {
         });
         fileMenu.add(openProjectMenuItem);
 
-        saveProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+        saveProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         saveProjectMenuItem.setMnemonic('s');
         saveProjectMenuItem.setText("Save Project");
         saveProjectMenuItem.setToolTipText("Save current project");
@@ -365,7 +366,7 @@ public class MainFrame extends JFrame {
         });
         fileMenu.add(saveProjectMenuItem);
 
-        saveProjectAsMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
+        saveProjectAsMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
         saveProjectAsMenuItem.setText("Save Project As ...");
         saveProjectAsMenuItem.setToolTipText("Choose location to save current project");
         saveProjectAsMenuItem.addActionListener(new ActionListener() {
@@ -375,7 +376,7 @@ public class MainFrame extends JFrame {
         });
         fileMenu.add(saveProjectAsMenuItem);
 
-        reloadProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
+        reloadProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK));
         reloadProjectMenuItem.setMnemonic('r');
         reloadProjectMenuItem.setText("Reload Current Project");
         reloadProjectMenuItem.addActionListener(new ActionListener() {
@@ -426,7 +427,7 @@ public class MainFrame extends JFrame {
         fileMenu.add(importMenu);
         fileMenu.add(fileMenuSeparator2);
 
-        exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
+        exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
         exitMenuItem.setToolTipText("Exit the application");
@@ -442,7 +443,7 @@ public class MainFrame extends JFrame {
         editMenu.setMnemonic('e');
         editMenu.setText("Edit");
 
-        copyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
+        copyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
         copyMenuItem.setMnemonic('c');
         copyMenuItem.setText("Copy");
         copyMenuItem.setToolTipText("Copies text/diagram into clipboard");
@@ -453,7 +454,7 @@ public class MainFrame extends JFrame {
         navigationMenu.setMnemonic('n');
         navigationMenu.setText("Navigation");
 
-        backMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.ALT_MASK));
+        backMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.ALT_DOWN_MASK));
         backMenuItem.setMnemonic('p');
         backMenuItem.setText("Back");
         backMenuItem.setToolTipText("Navigate to previous class from History");
@@ -464,7 +465,7 @@ public class MainFrame extends JFrame {
         });
         navigationMenu.add(backMenuItem);
 
-        forwardMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.ALT_MASK));
+        forwardMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.ALT_DOWN_MASK));
         forwardMenuItem.setMnemonic('n');
         forwardMenuItem.setText("Forward");
         forwardMenuItem.setToolTipText("Navigate to next class from History");
@@ -475,7 +476,7 @@ public class MainFrame extends JFrame {
         });
         navigationMenu.add(forwardMenuItem);
 
-        locateClassInHierarchyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_MASK));
+        locateClassInHierarchyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK));
         locateClassInHierarchyMenuItem.setMnemonic('l');
         locateClassInHierarchyMenuItem.setText("Locate Class in Hierarchy");
         locateClassInHierarchyMenuItem.setToolTipText("Locate in Hierarchy the class from current Preview");
