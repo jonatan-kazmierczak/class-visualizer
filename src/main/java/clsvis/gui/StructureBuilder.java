@@ -168,8 +168,8 @@ public abstract class StructureBuilder {
                         class_.isStatic() ? "</u>" : ""
                 )
                 + "</div>"
-                + //"</td></tr>"
-                buildMembersUMLTable( class_, ElementKind.Constants )
+                + "</td></tr>"
+                + buildMembersUMLTable( class_, ElementKind.Constants )
                 + buildMembersUMLTable( class_, ElementKind.Fields )
                 + buildMembersUMLTable( class_, ElementKind.Properties )
                 + buildMembersUMLTable( class_, ElementKind.Constructors )
@@ -210,6 +210,7 @@ public abstract class StructureBuilder {
                     element.isStatic() ? "</u>" : ""
             ) );
         }
+        sb.append("</td></tr>");
         return sb.toString();
     }
 
