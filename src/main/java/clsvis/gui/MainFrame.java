@@ -965,7 +965,26 @@ public class MainFrame extends JFrame {
 
         @Override
         public boolean include(Entry<? extends ClassesTableModel, ? extends Integer> entry) {
-            return entry.getModel().getRow(entry.getIdentifier()).fullTypeName.contains(filter);
+            return containsIgnoreCase(entry.getModel().getRow(entry.getIdentifier()).fullTypeName, filter);
+        }
+
+        private boolean containsIgnoreCase(String fullTypeName, String filter) {
+            if (filter.isEmpty()) return true;
+            if (fullTypeName.length() < filter.length()) return false;
+
+            int j = 0; // filter index
+            for (int i = 0; i < fullTypeName.length(); i++) {
+                if (Character.toLowerCase(fullTypeName.charAt(i)) ==
+                        Character.toLowerCase(filter.charAt(j))) {
+                    j++;
+                    if (j == filter.length()) return true;
+                } else if (j > 0) {
+                    // Backtrack: restart matching from current position
+                    i = i - j; // will be incremented by loop
+                    j = 0;
+                }
+            }
+            return false;
         }
     } //class
 
