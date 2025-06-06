@@ -819,7 +819,7 @@ public class MainFrame extends JFrame {
      * Updates value of filter object and refreshes {@link #classesTable} accordingly.
      */
     void classesTableRowFilterUpdated() {
-        classesTableRowFilter.filter = classesTableFilterTextField.getText();
+        classesTableRowFilter.filter = classesTableFilterTextField.getText().toLowerCase();
         ((TableRowSorter) classesTable.getRowSorter()).setRowFilter( classesTableRowFilter );
     }
 
@@ -965,7 +965,7 @@ public class MainFrame extends JFrame {
 
         @Override
         public boolean include(Entry<? extends ClassesTableModel, ? extends Integer> entry) {
-            return entry.getModel().getRow(entry.getIdentifier()).fullTypeName.contains(filter);
+            return entry.getModel().getRow(entry.getIdentifier()).fullTypeName.toLowerCase().contains(filter);
         }
     } //class
 
